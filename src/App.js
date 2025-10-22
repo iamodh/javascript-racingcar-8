@@ -2,10 +2,9 @@ import { Console, Random } from '@woowacourse/mission-utils';
 
 class App {
   async run() {
-    async function getUserInput() {
-      const carNamesInput = await Console.readLineAsync(
-        '경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)\n'
-      );
+    const carNamesInput = await Console.readLineAsync(
+      '경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)\n'
+    );
 
       const carNames = carNamesInput
         .split(',')
@@ -52,11 +51,9 @@ class App {
     const RANDOM_RANGE_FROM = 0;
     const RANDOM_RANGE_TO = 9;
 
+    Console.print('\n실행 결과');
     for (let i = 0; i < trialNumber; i++) {
-      console.log('trial: ' + (i + 1));
-
       for (const carName of carMoves.keys()) {
-        // roll
         const randomNumber = Random.pickNumberInRange(
           RANDOM_RANGE_FROM,
           RANDOM_RANGE_TO
@@ -64,14 +61,16 @@ class App {
 
         if (randomNumber >= 4) {
           carMoves.set(carName, carMoves.get(carName) + 1);
-          console.log(`${carName} goes forward : ${randomNumber}`);
         }
+
+        Console.print(`${carName} : ${'-'.repeat(carMoves.get(carName))}`);
       }
+
+      Console.print('');
     }
 
     const biggestMove = Math.max(...carMoves.values());
 
-    console.log('biggestMove: ' + biggestMove);
     const winners = [];
     for (const carName of carMoves.keys()) {
       if (carMoves.get(carName) === biggestMove) {
@@ -79,7 +78,7 @@ class App {
       }
     }
 
-    console.log('winners: ' + winners);
+    Console.print(`최종 우승자 : ${winners.join(', ')}`);
   }
 }
 
