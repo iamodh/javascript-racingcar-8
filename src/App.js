@@ -1,4 +1,5 @@
 import { Console, Random } from '@woowacourse/mission-utils';
+import { Input } from './Input';
 
 class App {
   async run() {
@@ -6,25 +7,15 @@ class App {
       '경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)\n'
     );
 
-      const carNames = carNamesInput
-        .split(',')
-        .map((carName) => carName.trim());
+    const carNames = Input.getCarNames(carNamesInput);
 
-      function validateCarNames(carNames) {
-        for (const carName of carNames) {
-          if (carName.length > 5) {
-            throw new Error(
-              `[Error] car name should be less or equal than 5 : ${carName}`
-            );
-          }
-        }
-      }
+    const trialNumberInput = await Console.readLineAsync(
+      '시도할 횟수는 몇 회인가요?\n'
+    );
 
-      validateCarNames(carNames);
+    const trialNumber = Input.getTrialNumber(trialNumberInput);
 
-      const trialNumberInput = await Console.readLineAsync(
-        '시도할 횟수는 몇 회인가요?\n'
-      );
+    // 자동차 이름에 따른 이동 현황을 편리하게 관리하기 위해 Map 사용
 
       const trialNumber = trialNumberInput.trim();
 
