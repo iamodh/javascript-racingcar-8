@@ -20,8 +20,4 @@ export class Car {
   getPosition() {
     return this.#position;
   }
-
-  printNameAndPosition() {
-    Console.print(`${this.#name} : ${'-'.repeat(this.#position)}`);
-  }
 }
