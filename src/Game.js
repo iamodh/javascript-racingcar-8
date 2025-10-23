@@ -1,29 +1,25 @@
 import { Console, Random } from '@woowacourse/mission-utils';
+import { Car } from './Car';
 
 export class Game {
   static #ROLL_DICE_FROM = 0;
   static #ROLL_DICE_TO = 9;
 
-  // 자동차 이름에 따른 이동 현황을 편리하게 관리하기 위해 Map 사용
-  #carMoves = new Map();
+  #cars = [];
   #trialNumber;
 
   constructor(carNames, trialNumber) {
-    this.#initCarMoves(carNames);
+    this.#initCars(carNames);
     this.#trialNumber = trialNumber;
   }
 
-  #initCarMoves(carNames) {
-    for (const carName of carNames) {
-      this.#carMoves.set(carName, 0);
-    }
+  #initCars(carNames) {
+    this.#cars = carNames.map((carName) => new Car(carName));
   }
 
   play() {
     for (let i = 0; i < this.#trialNumber; i++) {
-      for (const carName of this.#carMoves.keys()) {
-        this.#playOneTurn(carName);
-      }
+      this.#playOneTurn();
       Console.print('');
     }
 
@@ -32,34 +28,27 @@ export class Game {
     return winners;
   }
 
-  #playOneTurn(carName) {
-    const randomNumber = Random.pickNumberInRange(
-      Game.#ROLL_DICE_FROM,
-      Game.#ROLL_DICE_TO
-    );
-
-    if (randomNumber >= 4) {
-      this.#moveCar(carName);
+  #playOneTurn() {
+    for (const car of this.#cars) {
+      const randomNumber = Random.pickNumberInRange(
+        Game.#ROLL_DICE_FROM,
+        Game.#ROLL_DICE_TO
+      );
+      car.checkAndMove(randomNumber);
+      this.#printCarNameAndPosition(car);
     }
-    this.#printCarMove(carName);
   }
 
-  #moveCar(carName) {
-    this.#carMoves.set(carName, this.#carMoves.get(carName) + 1);
-  }
-
-  #printCarMove(carName) {
-    Console.print(`${carName} : ${'-'.repeat(this.#carMoves.get(carName))}`);
+  #printCarNameAndPosition(car) {
+    Console.print(`${car.getName()} : ${'-'.repeat(car.getPosition())}`);
   }
 
   #calculateWinners() {
-    const biggestMove = Math.max(...this.#carMoves.values());
-    const winners = [];
-    for (const carName of this.#carMoves.keys()) {
-      if (this.#carMoves.get(carName) === biggestMove) {
-        winners.push(carName);
-      }
-    }
+    const biggestMove = Math.max(...this.#cars.map((car) => car.getPosition()));
+
+    const winners = this.#cars
+      .filter((car) => car.getPosition() === biggestMove)
+      .map((car) => car.getName());
 
     return winners;
   }
