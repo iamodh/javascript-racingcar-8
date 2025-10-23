@@ -28,9 +28,23 @@ export class Input {
   }
 
   static #validateTrialNumber(trialNumber) {
-    if (Number.isNaN(trialNumber)) {
+    const regExp = /^[0-9]+$/;
+    if (!regExp.test(trialNumber))
       throw new Error(
         `[ERROR] trial number should be a number. : ${trialNumber}`
+      );
+
+    const num = Number(trialNumber);
+
+    if (num <= 0) {
+      throw new Error(
+        `[ERROR] trial number should be a positive integer. : ${trialNumber}`
+      );
+    }
+
+    if (Number(trialNumber) > Number.MAX_SAFE_INTEGER) {
+      throw new Error(
+        `[ERROR] trial number should be less than Number.MAX_SAFE_INTEGER. : ${trialNumber}`
       );
     }
   }
