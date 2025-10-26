@@ -1,5 +1,3 @@
-import { Console } from '@woowacourse/mission-utils';
-
 export class Car {
   #name;
   #position = 0;
