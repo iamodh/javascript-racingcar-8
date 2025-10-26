@@ -14,14 +14,17 @@ export class Input {
 
     Input.#validateTrialNumber(trialNumber);
 
-    return trialNumber;
+    return Number(trialNumber);
   }
 
   static #validateCarNames(carNames) {
     for (const carName of carNames) {
+      if (carName.length === 0) {
+        throw new Error('[ERROR] car name should not be empty.');
+      }
       if (carName.length > 5) {
         throw new Error(
-          `[ERROR] car name should be less or equal than 5 : ${carName}`
+          `[ERROR] car name should be less or equal than 5. : ${carName}`
         );
       }
     }
