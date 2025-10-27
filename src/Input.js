@@ -5,7 +5,6 @@ export class Input {
     const carNames = input.split(',').map((carName) => carName.trim());
 
     Input.#validateCarNames(carNames);
-    // this.#validateCarNames(carNames)
     return carNames;
   }
 
