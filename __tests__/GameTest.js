@@ -10,7 +10,7 @@ const mockRandoms = (numbers) => {
 };
 
 describe('게임 실행', () => {
-  test('올바른 우승자를 리턴하는가?', () => {
+  test('올바른 우승자와 로그를 리턴하는가?', () => {
     const carNames = ['pobi', 'woni', 'han'];
     const trialNumber = 1;
 
@@ -20,8 +20,9 @@ describe('게임 실행', () => {
     mockRandoms([MOVING_FORWARD, STOP, MOVING_FORWARD]);
 
     const game = new Game(carNames, trialNumber);
-    const winners = game.play();
+    const { winners, logs } = game.play();
 
     expect(winners).toEqual(['pobi', 'han']);
+    expect(logs).toEqual(['pobi : -', 'woni : ', 'han : -']);
   });
 });
