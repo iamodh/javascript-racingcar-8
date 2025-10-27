@@ -1,6 +1,7 @@
 import { Console, Random } from '@woowacourse/mission-utils';
-import { Input } from './Input';
-import { Game } from './Game';
+import { Input } from './Input.js';
+import { Game } from './Game.js';
+import { Output } from './Output.js';
 
 class App {
   async run() {
@@ -17,7 +18,13 @@ class App {
     const trialNumber = Input.getTrialNumber(trialNumberInput);
 
     const game = new Game(carNames, trialNumber);
-    const winners = game.play();
+    const { winners, logs } = game.play();
+
+    const formattedLogsString = Output.formatMovementLogs(
+      logs,
+      carNames.length
+    );
+    Console.print(formattedLogsString);
 
     Console.print(`최종 우승자 : ${winners.join(', ')}`);
   }
