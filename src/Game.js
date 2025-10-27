@@ -1,10 +1,11 @@
-import { Console, Random } from '@woowacourse/mission-utils';
-import { Car } from './Car';
+import { Random } from '@woowacourse/mission-utils';
+import { Car } from './Car.js';
 
 export class Game {
   static #ROLL_DICE_FROM = 0;
   static #ROLL_DICE_TO = 9;
 
+  #movementLogs = [];
   #cars = [];
   #trialNumber;
 
@@ -20,12 +21,11 @@ export class Game {
   play() {
     for (let i = 0; i < this.#trialNumber; i++) {
       this.#playOneTurn();
-      Console.print('');
     }
 
     const winners = this.#calculateWinners();
 
-    return winners;
+    return { winners, logs: this.#movementLogs };
   }
 
   #playOneTurn() {
@@ -35,14 +35,10 @@ export class Game {
         Game.#ROLL_DICE_TO
       );
       car.checkAndMove(randomNumber);
-      this.#printCarNameAndPosition(car);
+      const movementLog = car.createMovementLog();
+      this.#movementLogs.push(movementLog);
     }
   }
-
-  #printCarNameAndPosition(car) {
-    Console.print(`${car.getName()} : ${'-'.repeat(car.getPosition())}`);
-  }
-
   #calculateWinners() {
     const biggestMove = Math.max(...this.#cars.map((car) => car.getPosition()));
 
