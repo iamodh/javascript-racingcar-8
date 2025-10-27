@@ -1,4 +1,7 @@
 export class Input {
+  static MAX_CAR_NUMBER = 10;
+  static MAX_TRIAL_NUMBER = 1000;
+
   constructor() {}
 
   static getCarNames(input) {
@@ -17,6 +20,10 @@ export class Input {
   }
 
   static #validateCarNames(carNames) {
+    if (carNames.length > Input.MAX_CAR_NUMBER) {
+      throw new Error('[ERROR] too mamy cars.');
+    }
+
     for (const carName of carNames) {
       if (carName.length === 0) {
         throw new Error('[ERROR] car name should not be empty.');
@@ -44,9 +51,9 @@ export class Input {
       );
     }
 
-    if (Number(trialNumber) > Number.MAX_SAFE_INTEGER) {
+    if (Number(trialNumber) > Input.MAX_TRIAL_NUMBER) {
       throw new Error(
-        `[ERROR] trial number should be less than Number.MAX_SAFE_INTEGER. : ${trialNumber}`
+        `[ERROR] trial number should be less than 1000. : ${trialNumber}`
       );
     }
   }
