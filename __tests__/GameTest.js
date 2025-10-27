@@ -9,7 +9,7 @@ const mockRandoms = (numbers) => {
   }, MissionUtils.Random.pickNumberInRange);
 };
 
-describe('게임 실행', () => {
+describe('게임 진행', () => {
   test('올바른 우승자와 로그를 리턴하는가?', () => {
     const carNames = ['pobi', 'woni', 'han'];
     const trialNumber = 1;
